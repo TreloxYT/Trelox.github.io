@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Choisis ta destinée</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: orange;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    h1 {
+      color: white;
+      font-size: 3rem;
+      text-shadow: 2px 2px 5px black;
+      margin-bottom: 40px;
+    }
+
+    .btn {
+      padding: 20px 30px;
+      font-size: 1.2rem;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .btn:hover { transform: scale(1.05); }
+
+    #blueBtn { background: blue; }
+    #greenBtn { background: green; }
+
+    #jumpscare {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: red;
+      display: none;
+      z-index: 999;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    #thanks{ color:white; font-size:2rem; margin-top:20px; display:none; text-shadow:1px 1px 2px black;}
+    #subCount{ color:white; font-size:1.2rem; margin-top:10px; text-shadow:1px 1px 2px black;}
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <div id="jumpscare"></div>
+  <h1>Choisis ta destinée</h1>
+  <button id="blueBtn" class="btn">1000€</button>
+  <button id="greenBtn" class="btn">Abonne-toi à Trelox_YT</button>
+
+  <!-- Audio files: upload bg.mp3, ding.mp3, scare.mp3 alongside this HTML on your hosting -->
+  <audio id="bgMusic" src="bg.mp3" autoplay loop></audio>
+  <audio id="clickGreen" src="ding.mp3"></audio>
+  <audio id="clickBlue" src="scare.mp3"></audio>
+
+  <div id="thanks">Merci pour l'abo !</div>
+  <div id="subCount">Abonnés: ?</div>
+
+  <script>
+    // Particules vertes du bas vers le haut
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const particles = [];
+
+    function createParticle() {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: canvas.height + 10,
+        speed: Math.random() * 2 + 1,
+        size: Math.random() * 4 + 2
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length-1; i >= 0; i--) {
+        const p = particles[i];
+        p.y -= p.speed;
+        ctx.fillStyle = "lime";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        if (p.y < -10) particles.splice(i, 1);
+      }
+      requestAnimationFrame(animateParticles);
+    }
+
+    setInterval(createParticle, 100);
+    animateParticles();
+
+    // Simulated subscriber count (placeholder)
+    // You asked for a real counter earlier — to get a REAL YouTube subscriber count we need to use the YouTube Data API and an API key.
+    // For now this shows the real-looking number fetched from a local simulated value.
+    let simulatedCount = 12345;
+    function updateCountSmooth(target){
+      const el = document.getElementById('subCount');
+      let current = simulatedCount;
+      const step = Math.max(1, Math.floor((target - current) / 60));
+      const iv = setInterval(()=>{
+        if (current < target) current += step;
+        el.textContent = 'Abonnés: ' + current.toLocaleString('fr-FR');
+        if (current >= target){ clearInterval(iv); simulatedCount = target; }
+      },30);
+    }
+    // Start with a value
+    updateCountSmooth(12345);
+
+    // Buttons and sounds
+    const green = document.getElementById('greenBtn');
+    const blue = document.getElementById('blueBtn');
+    const jumpscare = document.getElementById('jumpscare');
+
+    green.addEventListener('click', ()=>{
+      document.getElementById('clickGreen').play();
+      document.getElementById('thanks').style.display = 'block';
+      // open channel in new tab (your link)
+      window.open('https://youtube.com/@treloxgoat?si=l8OnzqHwJJwOD1S4','_blank');
+    });
+
+    blue.addEventListener('click', ()=>{
+      document.getElementById('clickBlue').play();
+      jumpscare.style.display = 'block';
+      setTimeout(()=>{ jumpscare.style.display = 'none'; }, 800);
+    });
+  </script>
+</body>
+</html>

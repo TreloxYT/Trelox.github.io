@@ -151,5 +151,30 @@
       setTimeout(()=>{ jumpscare.style.display = 'none'; }, 800);
     });
   </script>
+  <audio id="weirdSound" src="bizarre.wav"></audio>
+
+<script>
+let keysPressed = {};
+let soundPlayed = false;
+
+document.addEventListener("keydown", (event) => {
+  keysPressed[event.key] = true;
+
+  if (keysPressed["6"] && keysPressed["7"]) {
+    if (!soundPlayed) {
+      document.getElementById("weirdSound").play();
+      soundPlayed = true;
+      setTimeout(() => {
+        window.location.href = "https://youtube.com/@oumaribbg?si=Usgm6SqIxGiCdZhY";
+      }, 1000);
+    }
+  }
+});
+
+document.addEventListener("keyup", (event) => {
+  delete keysPressed[event.key];
+});
+</script>
+
 </body>
 </html>

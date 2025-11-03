@@ -88,6 +88,13 @@
   <div id="subCount">Abonnés: ?</div>
 
   <script>
+
+    let fakeSubCount = 9876;
+setInterval(() => {
+  fakeSubCount += Math.floor(Math.random() * 3); 
+  document.getElementById("subCount").innerText = "Abonnés : " + fakeSubCount;
+}, 2000);
+
     // Particules vertes du bas vers le haut
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");

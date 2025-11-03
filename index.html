@@ -63,13 +63,20 @@
     }
     #thanks{ color:white; font-size:2rem; margin-top:20px; display:none; text-shadow:1px 1px 2px black;}
     #subCount{ color:white; font-size:1.2rem; margin-top:10px; text-shadow:1px 1px 2px black;}
+    /* Effet glitch léger au survol */
+.glitch-target:hover {
+  filter: hue-rotate(90deg) contrast(2);
+  transform: scale(1.08);
+  transition: 0.2s;
+}
+
   </style>
 </head>
 <body>
   <canvas id="particles"></canvas>
   <div id="jumpscare"></div>
-  <h1>Choisis ta destinée</h1>
-  <button id="blueBtn" class="btn">1000€</button>
+  <h1 class="glitch-target">Choisis ta destinée</h1>
+  <button id="blueBtn" class="btn glitch-target">1000€</button>
   <button id="greenBtn" class="btn">Abonne-toi à Trelox_YT</button>
 
   <!-- Audio files: upload bg.mp3, ding.mp3, scare.mp3 alongside this HTML on your hosting -->

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Choisis ta destinée</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: orange;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    h1 {
+      color: white;
+      font-size: 3rem;
+      text-shadow: 2px 2px 5px black;
+      margin-bottom: 40px;
+    }
+
+    .btn {
+      padding: 20px 30px;
+      font-size: 1.2rem;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .btn:hover { transform: scale(1.1); }
+
+    #blueBtn { background: blue; }
+    #greenBtn { background: green; }
+
+    #jumpscare {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: red;
+      display: none;
+      z-index: 999;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <div id="jumpscare"></div>
+  <h1>Choisis ta destinée</h1>
+  <button id="blueBtn" class="btn">1000€</button>
+  <button id="greenBtn" class="btn">Abonne-toi à TrelloxYT</button>
+
+  <script>
+    // Particules vertes du bas vers le haut
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+
+    function createParticle() {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: canvas.height + 10,
+        speed: Math.random() * 2 + 1,
+        size: Math.random() * 4 + 2
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        p.y -= p.speed;
+        ctx.fillStyle = "lime";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        if (p.y < -10) particles.splice(i, 1);
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    setInterval(createParticle, 100);
+    animateParticles();
+
+    // Jumpscare
+    const jumpscare = document.getElementById("jumpscare");
+    document.getElementById("blueBtn").onclick = () => {
+      jumpscare.style.display = "block";
+      setTimeout(() => {
+        jumpscare.style.display = "none";
+      }, 800);
+    };
+  </script>
+  <audio id="bgMusic" src="bg.mp3" autoplay loop></audio>
+  <audio id="clickGreen" src="ding.mp3"></audio>
+  <audio id="clickBlue" src="scare.mp3"></audio>
+  <div id="thanks" style="color:white; font-size:2rem; margin-top:20px; display:none;">Merci pour l'abo !</div>
+  <div id="subCount" style="color:white; font-size:1.5rem; margin-top:10px;">Abonnés: ?</div>
+<script>
+// Simulated subscriber count placeholder
+let count = 1000;
+setInterval(()=>{
+ document.getElementById('subCount').innerHTML = 'Abonnés: ' + count;
+},2000);
+
+// button sounds
+const green = document.getElementById('greenBtn');
+green.onclick = ()=>{
+ document.getElementById('clickGreen').play();
+ document.getElementById('thanks').style.display='block';
+ window.open('https://youtube.com/@treloxgoat?si=l8OnzqHwJJwOD1S4','_blank');
+};
+const blue = document.getElementById('blueBtn');
+blue.onclick = ()=>{
+ document.getElementById('clickBlue').play();
+ jumpscare.style.display = 'block';
+ setTimeout(()=>{jumpscare.style.display='none';},800);
+};
+</script>
+</body>
+</html>

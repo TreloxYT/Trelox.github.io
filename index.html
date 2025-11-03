@@ -160,7 +160,7 @@ let soundPlayed = false;
 document.addEventListener("keydown", (event) => {
   keysPressed[event.key] = true;
 
-  if (keysPressed["6"] && keysPressed["7"]) {
+  if (keysPressed["a"] && keysPressed["b"]) {
     if (!soundPlayed) {
       document.getElementById("weirdSound").play();
       soundPlayed = true;
